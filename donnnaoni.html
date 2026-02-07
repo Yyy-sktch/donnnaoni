@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>どんなおに？メーカー</title>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+       body {
+  		font-family:
+   		 'Hiragino Sans',
+   	 'Hiragino Kaku Gothic ProN',
+   	 'Yu Gothic',
+    	'Meiryo',
+   	 sans-serif;
+
+background-color: #fef9f2;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+   	
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 3em;
+            font-weight: 800;
+            color: #e66056;
+            margin-bottom: 10px;
+            
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            color: #666;
+        }
+        
+        .header-history-button {
+            background: #72cdac;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(114, 205, 172, 0.3);
+        }
+        
+        .header-history-button:hover {
+            background: #5fb89a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(114, 205, 172, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .header-history-button {
+                font-size: 0.9em;
+                padding: 10px 20px;
+            }
+        }
+        
+        .history-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+        
+        .history-modal.hidden {
+            display: none;
+        }
+        
+        .history-modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .history-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 30px 20px;
+            border-bottom: 2px solid #fef9f2;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .modal-close-button {
+            background: #e66056;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5em;
+            line-height: 1;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        
+        .modal-close-button:hover {
+            background: #d44d43;
+            transform: rotate(90deg);
+        }
+        
+        .history-modal .history-list {
+            padding: 20px 30px 30px;
+        }
+        
+        .step {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        @media (max-width: 768px) {
+            .step {
+                padding: 20px 15px;
+            }
+            
+            .container {
+                padding: 0 10px;
+            }
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: linear-gradient(135deg, #e66056, #ff8a7a);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.5em;
+            box-shadow: 0 3px 10px rgba(230, 96, 86, 0.3);
+        }
+        
+        .step-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            padding-top: 20px;
+        }
+        
+        .roulette-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .roulette-item {
+            flex: 1;
+            min-width: 200px;
+            background: #fef9f2;
+            padding: 20px;
+            border-radius: 15px;
+            border: 3px dashed #72cdac;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .roulette-label {
+            font-size: 0.9em;
+            color: #999;
+            margin-bottom: 10px;
+        }
+        
+        .roulette-result {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #333;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .roulette-result:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+        
+        .roulette-result.editable::before {
+            content: "✎ ";
+            margin-right: 8px;
+            font-size: 0.9em;
+            opacity: 0.5;
+        }
+        
+    
+        
+        .spin-button {
+            background: linear-gradient(135deg, #6fb1ec, #4a9de8);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.5em;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(111, 177, 236, 0.4);
+            transition: all 0.3s;
+            display: block;
+            margin: 30px auto;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: rgba(111, 177, 236, 0.3);
+            position: relative;
+            z-index: 100;
+        }
+        
+        .spin-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(111, 177, 236, 0.5);
+        }
+        
+        .spin-button:active {
+            transform: translateY(0);
+        }
+        
+        .your-game {
+            background: linear-gradient(135deg, #e7de50, #f5ed8a);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #333;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(231, 222, 80, 0.3);
+            line-height: 1.6;
+            min-height: 0;
+        }
+        
+        .your-game:empty {
+            display: none;
+        }
+        
+        .role-container {
+            margin: 20px 0;
+        }
+        
+        .role-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+      .role-item input {
+            flex: 1;
+            padding: 15px;
+            border: 3px solid #72cdac;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-family: 'M PLUS 1p', sans-serif;
+            transition: all 0.3s;
+            min-width: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .role-item {
+                gap: 10px;
+            }
+            
+            .role-item input {
+                padding: 12px;
+                font-size: 1em;
+            }
+            
+            .role-arrow {
+                font-size: 1.2em;
+                flex-shrink: 0;
+            }
+        }
+        
+        .role-item input:focus {
+            outline: none;
+            border-color: #6fb1ec;
+            box-shadow: 0 0 0 3px rgba(111, 177, 236, 0.2);
+        }
+        
+        .role-arrow {
+            font-size: 1.5em;
+            color: #e66056;
+        }
+        
+        .add-role-button {
+            background: #72cdac;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .add-role-button:hover {
+            background: #5fb89a;
+            transform: translateY(-2px);
+        }
+        
+           textarea {
+            width: 100%;
+            padding: 20px;
+            border: 3px solid #6fb1ec;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-family: 'M PLUS 1p', sans-serif;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #e66056;
+            box-shadow: 0 0 0 3px rgba(230, 96, 86, 0.2);
+        }
+        
+        .save-button {
+            background: linear-gradient(135deg, #e66056, #ff8a7a);
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            font-size: 1.5em;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(230, 96, 86, 0.4);
+            transition: all 0.3s;
+            display: block;
+            margin: 30px auto;
+        }
+        
+        .save-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(230, 96, 86, 0.5);
+        }
+        
+        .summary {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .summary-section {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid #fef9f2;
+        }
+        
+        .summary-section:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #e66056;
+            margin-bottom: 10px;
+        }
+        
+        .summary-content {
+            font-size: 1.1em;
+            color: #333;
+            line-height: 1.8;
+        }
+        
+     .edit-input {
+            border: 3px solid #6fb1ec;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 1.5em;
+            font-weight: 700;
+            font-family: 'M PLUS 1p', sans-serif;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .edit-input:focus {
+            outline: none;
+            border-color: #e66056;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .history-button {
+            background: #72cdac;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 700;
+            margin: 20px auto;
+            display: block;
+            transition: all 0.3s;
+        }
+        
+        .history-button:hover {
+            background: #5fb89a;
+            transform: translateY(-2px);
+        }
+        
+        .history-list {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .history-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #fef9f2;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 5px solid #72cdac;
+        }
+        
+        .history-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .history-title {
+            font-weight: 700;
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .history-date {
+            color: #999;
+            font-size: 0.9em;
+        }
+        
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 20px;
+            background: #fef9f2;
+            border-radius: 15px;
+            border: 3px solid #72cdac;
+        }
+        
+        .template-grid::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        .template-grid::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .template-grid::-webkit-scrollbar-thumb {
+            background: #72cdac;
+            border-radius: 10px;
+        }
+        
+        .template-grid::-webkit-scrollbar-thumb:hover {
+            background: #5fb89a;
+        }
+        
+        .template-grid h3 {
+            position: sticky;
+            top: 0;
+            background: #fef9f2;
+            z-index: 10;
+            padding-bottom: 15px;
+            margin-bottom: 5px;
+        }
+        
+        .template-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid #72cdac;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .template-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(114, 205, 172, 0.3);
+            border-color: #6fb1ec;
+        }
+        
+        .template-card.selected {
+            background: linear-gradient(135deg, #72cdac, #5fb89a);
+            color: white;
+            border-color: #72cdac;
+        }
+        
+        .template-text {
+            font-size: 1em;
+            line-height: 1.5;
+            text-align: center;
+        }
+        
+        .rule-item {
+            background: #f0f9ff;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #6fb1ec;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+       .rule-item input {
+            background: white;
+            border: 2px solid #6fb1ec;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 1.1em;
+            font-family: 'M PLUS 1p', sans-serif;
+            margin: 0 5px;
+            min-width: 100px;
+        }
+        
+        .rule-item input:focus {
+            outline: none;
+            border-color: #e66056;
+            box-shadow: 0 0 0 3px rgba(230, 96, 86, 0.2);
+        }
+        
+        .remove-rule {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e66056;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            line-height: 1;
+            transition: all 0.3s;
+        }
+        
+        .remove-rule:hover {
+            background: #d44d43;
+            transform: rotate(90deg);
+        }
+
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 12px 24px;
+  background-color: #000000;
+  color: #ffffff;
+
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 999px;
+
+  transition: opacity 0.2s ease;
+}
+
+.back-button:hover {
+  opacity: 0.8;
+}
+
+.arrow {
+  font-size: 18px;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .back-button {
+    position: static;
+    margin: 0 auto 20px;
+    display: inline-flex;
+  }
+  
+  .back-button-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+}
+    </style>
+</head>
+<body>
+    <div class="back-button-container">
+        <a href="https://preview.studio.site/live/Z9qpmw1KaP" class="back-button">
+            <span class="arrow">←</span>
+            トップページに戻る
+        </a>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1>どんなおに？メーカー</h1>
+            <p class="subtitle">オリジナルの鬼ごっこを作ろう！</p>
+            <button class="header-history-button" onclick="showHistoryFromHeader()">過去の鬼ごっこを見る</button>
+        </header>
+
+        <!-- Step 1: ルーレット -->
+        <div class="step" id="step1">
+            <div class="step-number">1</div>
+            <h2 class="step-title">ルーレットを回そう</h2>
+            
+            <div class="roulette-container">
+                <div class="roulette-item" id="roulette1">
+                    <div class="roulette-label">単語A</div>
+                    <div class="roulette-result editable" id="word-a" onclick="editWord('word-a')">???</div>
+                </div>
+                
+                <div class="roulette-item" id="roulette2">
+                    <div class="roulette-label">状況</div>
+                    <div class="roulette-result" id="situation">???</div>
+                </div>
+                
+                <div class="roulette-item" id="roulette3">
+                    <div class="roulette-label">単語B</div>
+                    <div class="roulette-result editable" id="word-b" onclick="editWord('word-b')">???</div>
+                </div>
+                
+                <div class="roulette-item" id="roulette4">
+                    <div class="roulette-label">行動</div>
+                    <div class="roulette-result" id="action">???</div>
+                </div>
+            </div>
+            
+            <button class="spin-button" onclick="spinRoulette()">ルーレットを回す</button>
+            
+            <div class="your-game" id="game-title"></div>
+        </div>
+
+        <!-- Step 2: 役割を考える -->
+        <div class="step hidden" id="step2">
+            <div class="step-number">2</div>
+            <h2 class="step-title">役割を考えよう</h2>
+            
+            <div class="role-container" id="role-container">
+                <div class="role-item">
+                    <input type="text" placeholder="役の名前" class="role-name">
+                    <span class="role-arrow">→</span>
+                    <input type="text" placeholder="その役割は何をする？" class="role-action">
+                </div>
+                <div class="role-item">
+                    <input type="text" placeholder="役の名前" class="role-name">
+                    <span class="role-arrow">→</span>
+                    <input type="text" placeholder="その役割は何をする？" class="role-action">
+                </div>
+            </div>
+            
+            <button class="add-role-button" onclick="addRole()">+ 役割を追加</button>
+        </div>
+
+        <!-- Step 3: ルールを決める -->
+        <div class="step hidden" id="step3">
+            <div class="step-number">3</div>
+            <h2 class="step-title">ルールを決めよう</h2>
+            
+            <button class="spin-button" onclick="spinRuleRoulette()" style="margin: 20px auto 30px;">ルールルーレットを回す</button>
+            
+            <div id="selected-rules-container" style="margin-bottom: 30px;">
+                <!-- 選択されたルールがここに表示される -->
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <button class="history-button" onclick="toggleTemplates()">他のテンプレートを見る</button>
+            </div>
+            
+            <div class="template-grid hidden" id="template-grid">
+                <!-- テンプレート一覧 -->
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <h3 style="color: #6fb1ec; margin-bottom: 15px;">自由にルールを追加</h3>
+                <textarea id="custom-rules" placeholder="他にもルールがあれば自由に書こう！"></textarea>
+            </div>
+        </div>
+
+        <!-- Step 4: ストーリーを作る -->
+        <div class="step hidden" id="step4">
+            <div class="step-number">4</div>
+            <h2 class="step-title">ストーリーを作ろう</h2>
+            
+            <textarea id="story" placeholder="この鬼ごっこの世界観やストーリーを書こう！
+例：
+・昔々、〇〇の国では...
+・ある日突然、△△が現れて...
+・この世界では□□が大切にされている..."></textarea>
+        </div>
+
+        <!-- Step 5: 保存 -->
+        <div class="step hidden" id="step5">
+            <div class="step-number">5</div>
+            <h2 class="step-title">遊んでみよう！</h2>
+            
+            <div style="margin-bottom: 30px;">
+                <h3 style="color: #6fb1ec; margin-bottom: 15px;">この鬼ごっこに名前をつけよう（任意）</h3>
+                <input type="text" id="game-name" placeholder="名前をつけない場合は、ルーレットの内容が名前になります" style="width: 100%; padding: 15px; border: 3px solid #e66056; border-radius: 10px; font-size: 1.2em; font-weight: 700;">
+                <p style="color: #999; font-size: 0.9em; margin-top: 10px;">ルーレットの内容: <span id="roulette-reference" style="color: #666;"></span></p>
+            </div>
+            
+            <div class="summary" id="summary">
+                <div class="summary-section">
+                    <div class="summary-title">あなたの鬼ごっこ</div>
+                    <div class="summary-content" id="summary-title"></div>
+                </div>
+                
+                <div class="summary-section">
+                    <div class="summary-title">役割</div>
+                    <div class="summary-content" id="summary-roles"></div>
+                </div>
+                
+                <div class="summary-section">
+                    <div class="summary-title">ルール</div>
+                    <div class="summary-content" id="summary-rules"></div>
+                </div>
+                
+                <div class="summary-section">
+                    <div class="summary-title">ストーリー</div>
+                    <div class="summary-content" id="summary-story"></div>
+                </div>
+            </div>
+            
+            <button class="save-button" onclick="saveGame()">この遊びを保存する</button>
+            <button class="history-button" onclick="toggleHistory()">過去の鬼ごっこを見る</button>
+            <button class="history-button" onclick="createNewGame()" style="background: #e66056;">新しく遊びを作る</button>
+            
+            <div class="history-list hidden" id="history-list"></div>
+        </div>
+
+        <!-- Step 6: 保存された鬼ごっこの詳細表示 -->
+        <div class="step hidden" id="step6">
+            <div class="step-number">6</div>
+            <h2 class="step-title">保存された鬼ごっこ</h2>
+            
+            <div class="summary" id="saved-game-summary">
+                <div class="summary-section">
+                    <div class="summary-title">あなたの鬼ごっこ</div>
+                    <div class="summary-content" id="saved-summary-title"></div>
+                </div>
+                
+                <div class="summary-section">
+                    <div class="summary-title">役割</div>
+                    <div class="summary-content" id="saved-summary-roles"></div>
+                </div>
+                
+                <div class="summary-section">
+                    <div class="summary-title">ルール</div>
+                    <div class="summary-content" id="saved-summary-rules"></div>
+                </div>
+                
+                <div class="summary-section">
+                    <div class="summary-title">ストーリー</div>
+                    <div class="summary-content" id="saved-summary-story"></div>
+                </div>
+            </div>
+            
+            <button class="save-button" onclick="editSavedGame()">この遊びを編集する</button>
+            <button class="history-button" onclick="backToHistory()">一覧に戻る</button>
+        </div>
+    </div>
+
+    <script>
+        // 単語リスト（大幅に増量）
+        const wordsA = [
+            '忍者', '海賊', 'ロボット', '魔法使い', '王様', '王女', 'ドラゴン', 
+            '宇宙人', '恐竜', 'ゾンビ', '妖精', '幽霊', '侍', '騎士', 
+            'スパイ', '探偵', '警察', '泥棒', '医者', '先生', '料理人', 
+            '動物', '犬', '猫', 'ライオン', 'トラ', 'パンダ', 'ペンギン',
+            '太陽', '月', '星', '雲', '雷', '風', '氷', '炎',
+            '花', '木', '森', '海', '山', '川', '島', '城',
+            'スマホ', 'パソコン', '車', '電車', '飛行機', '船', 'ロケット',
+            'サッカーボール', 'バスケットボール', '野球', 'テニス',
+            '音楽', '歌', 'ダンス', '絵', '本', '映画',
+            '時計', '鏡', '宝石', '王冠', '剣', '盾', '魔法の杖',
+            // 擬音語
+            'ドキドキ', 'ワクワク', 'キラキラ', 'フワフワ', 'ピカピカ',
+            'ゴロゴロ', 'ザワザワ', 'ドンドン', 'バタバタ', 'ヒラヒラ',
+            'プルプル', 'ガタガタ', 'ジリジリ', 'モクモク', 'パチパチ',
+            'ズシズシ', 'スイスイ', 'ビュンビュン', 'ピョンピョン', 'クルクル',
+            // 追加の生き物・キャラクター
+            'ユニコーン', 'フェニックス', '天使', '悪魔', 'エルフ', '巨人',
+            'ヴァンパイア', '人魚', 'ケンタウロス', 'グリフォン',
+            '怪獣', 'モンスター', 'スライム', 'ゴブリン', 'オーク',
+            // 職業・役割
+            'アーティスト', 'ダンサー', '歌手', 'アイドル', 'ヒーロー',
+            'コック', 'パティシエ', 'DJ', 'プログラマー', '宇宙飛行士',
+            // 自然・天候
+            '虹', '稲妻', '霧', '嵐', '竜巻', '雪', '雨', '台風', '流れ星', '彗星', '銀河',
+            // 食べ物
+            'リンゴ', 'バナナ', 'イチゴ', 'メロン', 'スイカ',
+            'ケーキ', 'クッキー', 'チョコレート', 'キャンディ', 'ポップコーン',
+            'ドーナツ', 'プリン', 'ゼリー', 'アイスクリーム', 'おにぎり',
+            // 乗り物
+            'UFO', '潜水艦', '気球', 'スケートボード', '自転車', 'バイク',
+            'ヘリコプター', '救急車', '消防車', 'パトカー',
+            // 場所・建物
+            '学校', '病院', '図書館', '博物館', '遊園地', '水族館', '動物園',
+            '公園', '広場', 'お店', 'レストラン',
+            // 小学生に身近なもの
+            'ランドセル', '鉛筆', '消しゴム', 'ノート', 'クレヨン',
+            'ボール', '縄跳び', 'フラフープ', '積み木', 'パズル',
+            '笑顔', '元気', '勇気', '友情', '仲間',
+            // 自然・動物
+            'うさぎ', 'きつね', 'たぬき', 'りす', 'くま',
+            '鳥', 'カエル', 'カメ', '魚', 'イルカ', 'クジラ',
+            'チョウチョ', 'トンボ', 'セミ', 'カブトムシ', 'クワガタ'
+        ];
+        
+        const wordsB = [
+            '宝物', '鍵', '地図', '秘密', '友達', '家族', '村', '街',
+            '基地', '要塞', '塔', '橋', '門', '壁', '道',
+            '食べ物', 'ケーキ', 'お菓子', 'ジュース', 'アイス',
+            '光', '影', '夢', '希望', '勇気', '力', 'エネルギー',
+            'メダル', 'トロフィー', '王座', 'ゴール', '旗',
+            '卵', '種', '芽', '花', '実',
+            '記憶', '思い出', '約束', '伝説', '物語',
+            '笑顔', '涙', '心', '魂', '絆',
+            '時間', '空間', '世界', '次元', '未来', '過去',
+            'ボタン', 'スイッチ', '扉', '窓', 'ポータル',
+            '色', '音', '香り', '味', '感覚',
+            // 擬音語
+            'ドキドキ', 'ワクワク', 'キラキラ', 'ピカピカ', 'フワフワ',
+            'ゾクゾク', 'ウキウキ', 'ソワソワ', 'ルンルン', 'イライラ',
+            'ニコニコ', 'シクシク', 'ガミガミ', 'ブツブツ', 'ムカムカ',
+            // アイテム・道具
+            '魔法の石', '水晶', 'コンパス', '望遠鏡', '虫眼鏡',
+            'ランタン', '松明', 'ロープ', 'はしご', '釣り竿',
+            'バッグ', 'リュック', '帽子', 'マント', 'ブーツ',
+            // 自然・環境
+            '滝', '洞窟', '森林', '砂漠', '草原', '湿地', '氷河',
+            '温泉', '湖', '池', '沼', '泉', '小川',
+            // 宝物・貴重品
+            'ダイヤモンド', 'ルビー', 'サファイア', 'エメラルド', '真珠',
+            '金貨', '銀貨', '財宝', '秘宝', '王冠',
+            // 抽象概念
+            '運命', '奇跡', '魔法', '祝福', '試練',
+            '冒険', '旅', '探検', '発見', '挑戦',
+            // 感情・状態
+            '喜び', '楽しさ', '幸せ', '元気', '優しさ',
+            // 自然現象
+            '虹', '稲妻', 'オーロラ', '流星', '太陽の光', '月の光',
+            // 場所
+            '迷宮', '神殿', '遺跡', '宮殿', '城', '砦',
+            // その他
+            '呪文', '魔法陣', 'クリスタル', 'お守り', '宝箱',
+            '伝説の剣', '聖なる盾', '魔法の本', '不思議な杖',
+            // 小学生に身近なもの
+            '教室', '校庭', 'プール', '図工室', '音楽室',
+            'サッカーゴール', 'ブランコ', 'すべり台', '鉄棒', 'ジャングルジム',
+            '給食', 'お弁当', '文房具', '教科書', 'ノート',
+            '夏休み', '冬休み', '運動会', '遠足', '修学旅行',
+            // 自然
+            'どんぐり', '松ぼっくり', '落ち葉', '雪だるま', '砂のお城',
+            '貝がら', '石ころ', '四つ葉のクローバー'
+        ];
+        
+        const situations = [
+            'になったとき',
+            'と言いながら',
+            'のつもりで',
+            'しながら',
+            'のフリをして',
+            'の真似をして',
+            'になりきって',
+            'を感じながら',
+            'を探しながら',
+            'を見つけたら',
+            'と出会ったら',
+            'に変身したら',
+            'の声で',
+            'のように',
+            'の力で',
+            'に触れたら',
+            'を持ったまま',
+            'に囲まれて',
+            'と戦いながら',
+            'を守りながら'
+        ];
+        
+        const actions = [
+            'から逃げる',
+            'を守る',
+            'を追いかける',
+            'を攻撃する',
+            'を助ける',
+            'を見つける',
+            'を集める',
+            'に変身する',
+            'と戦う',
+            'を奪う',
+            'を探す',
+            'と協力する',
+            'に勝つ',
+            'を倒す',
+            'を救う',
+            'と友達になる',
+            'を捕まえる',
+            'から隠れる',
+            'を届ける',
+            'を完成させる'
+        ];
+
+        // ルールテンプレート
+        const ruleTemplates = [
+            { id: 1, template: '【blank】にタッチされたら【blank】する', blanks: 2 },
+            { id: 2, template: '【blank】は【blank】のように動く', blanks: 2 },
+            { id: 3, template: '【blank】と言ったら【blank】', blanks: 2 },
+            { id: 4, template: '【blank】を見つけたら【blank】できる', blanks: 2 },
+            { id: 5, template: '【blank】したら勝ち', blanks: 1 },
+            { id: 6, template: '【blank】したら負け', blanks: 1 },
+            { id: 7, template: '【blank】は【blank】してはいけない', blanks: 2 },
+            { id: 8, template: '【blank】ができるのは【blank】だけ', blanks: 2 },
+            { id: 9, template: '【blank】秒以内に【blank】する', blanks: 2 },
+            { id: 10, template: '【blank】を持っている人は【blank】', blanks: 2 },
+            { id: 11, template: '【blank】エリアに入ったら【blank】', blanks: 2 },
+            { id: 12, template: '【blank】回【blank】したら【blank】', blanks: 3 },
+            { id: 13, template: '【blank】の合図で【blank】開始', blanks: 2 },
+            { id: 14, template: '【blank】に触れたら【blank】に変身', blanks: 2 },
+            { id: 15, template: '【blank】は【blank】を使える', blanks: 2 },
+            { id: 16, template: '【blank】人以上集まったら【blank】', blanks: 2 },
+            { id: 17, template: '【blank】を守りながら【blank】する', blanks: 2 },
+            { id: 18, template: '【blank】したら【blank】秒間無敵', blanks: 2 },
+            { id: 19, template: '【blank】は【blank】から逃げる', blanks: 2 },
+            { id: 20, template: '【blank】を集めると【blank】', blanks: 2 },
+            { id: 21, template: '【blank】の中では【blank】できない', blanks: 2 },
+            { id: 22, template: '【blank】と【blank】は協力する', blanks: 2 },
+            { id: 23, template: '【blank】したら【blank】と交代', blanks: 2 },
+            { id: 24, template: '【blank】は【blank】より速く動ける', blanks: 2 },
+            { id: 25, template: '【blank】を【blank】回言ったら助かる', blanks: 2 },
+            { id: 26, template: '【blank】までに【blank】する', blanks: 2 },
+            { id: 27, template: '【blank】したら【blank】ポイント', blanks: 2 },
+            { id: 28, template: '【blank】は【blank】を見つける', blanks: 2 },
+            { id: 29, template: '【blank】の近くでは【blank】', blanks: 2 },
+            { id: 30, template: '【blank】人捕まえたら【blank】', blanks: 2 },
+            // 新規追加
+            { id: 31, template: '【blank】を使って【blank】を倒す', blanks: 2 },
+            { id: 32, template: '【blank】の音が聞こえたら【blank】', blanks: 2 },
+            { id: 33, template: '【blank】を3つ集めたら【blank】', blanks: 2 },
+            { id: 34, template: '【blank】と叫んだら【blank】秒間ストップ', blanks: 2 },
+            { id: 35, template: '【blank】のポーズをしたら【blank】', blanks: 2 },
+            { id: 36, template: '【blank】を踏んだら【blank】に戻る', blanks: 2 },
+            { id: 37, template: '【blank】色のものに触ったら【blank】', blanks: 2 },
+            { id: 38, template: '【blank】メートル以内に近づいたら【blank】', blanks: 2 },
+            { id: 39, template: '【blank】を見つけるまで【blank】できない', blanks: 2 },
+            { id: 40, template: '【blank】と同じ動きをしたら【blank】', blanks: 2 },
+            { id: 41, template: '【blank】を渡したら【blank】と味方になる', blanks: 2 },
+            { id: 42, template: '【blank】が来たら全員【blank】', blanks: 2 },
+            { id: 43, template: '【blank】を言えたら【blank】できる', blanks: 2 },
+            { id: 44, template: '【blank】している間は【blank】', blanks: 2 },
+            { id: 45, template: '【blank】に当たったら【blank】秒間動けない', blanks: 2 },
+            { id: 46, template: '【blank】を描いたら【blank】が発動', blanks: 2 },
+            { id: 47, template: '【blank】と握手したら【blank】', blanks: 2 },
+            { id: 48, template: '【blank】を渡し合って【blank】', blanks: 2 },
+            { id: 49, template: '【blank】歩以内に近づけない', blanks: 1 },
+            { id: 50, template: '【blank】を背中に乗せたまま【blank】', blanks: 2 },
+            { id: 51, template: '【blank】と目が合ったら【blank】', blanks: 2 },
+            { id: 52, template: '【blank】の場所を示したら【blank】', blanks: 2 },
+            { id: 53, template: '【blank】を隠して【blank】に探させる', blanks: 2 },
+            { id: 54, template: '【blank】の真似をしながら【blank】', blanks: 2 },
+            { id: 55, template: '【blank】を囲んだら【blank】', blanks: 2 },
+            { id: 56, template: '【blank】回ジャンプしたら【blank】', blanks: 2 },
+            { id: 57, template: '【blank】を通過したら【blank】にワープ', blanks: 2 },
+            { id: 58, template: '【blank】を投げて【blank】に当てる', blanks: 2 },
+            { id: 59, template: '【blank】番目に【blank】した人が鬼', blanks: 2 },
+            { id: 60, template: '【blank】を完成させたチームの勝ち', blanks: 1 }
+        ];
+
+        let selectedRules = [];
+
+        let currentGame = {
+            wordA: '',
+            situation: '',
+            wordB: '',
+            action: '',
+            gameName: '',
+            roles: [],
+            rules: [],
+            customRules: '',
+            story: ''
+        };
+
+        function getRandom(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function spinRoulette() {
+            const wordAEl = document.getElementById('word-a');
+            const situationEl = document.getElementById('situation');
+            const wordBEl = document.getElementById('word-b');
+            const actionEl = document.getElementById('action');
+
+            let count = 0;
+            const max = 15;
+
+            const interval = setInterval(() => {
+                wordAEl.textContent = getRandom(wordsA);
+                situationEl.textContent = getRandom(situations);
+                wordBEl.textContent = getRandom(wordsB);
+                actionEl.textContent = getRandom(actions);
+
+                count++;
+                if (count >= max) {
+                    clearInterval(interval);
+                    finalizeRoulette();
+                }
+            }, 80);
+        }
+
+        function finalizeRoulette() {
+            currentGame.wordA = document.getElementById('word-a').textContent;
+            currentGame.situation = document.getElementById('situation').textContent;
+            currentGame.wordB = document.getElementById('word-b').textContent;
+            currentGame.action = document.getElementById('action').textContent;
+            
+            updateGameTitle();
+            showStep(2);
+        }
+
+        function updateGameTitle() {
+            const title = `${currentGame.wordA}${currentGame.situation}${currentGame.wordB}${currentGame.action}鬼ごっこ`;
+            document.getElementById('game-title').textContent = title;
+            document.getElementById('summary-title').textContent = title;
+        }
+
+        function editWord(elementId) {
+            const element = document.getElementById(elementId);
+            const currentText = element.textContent;
+            
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentText;
+            input.className = 'edit-input';
+            
+            input.onblur = function() {
+                const newValue = this.value || currentText;
+                element.textContent = newValue;
+                
+                if (elementId === 'word-a') {
+                    currentGame.wordA = newValue;
+                } else if (elementId === 'word-b') {
+                    currentGame.wordB = newValue;
+                }
+                
+                updateGameTitle();
+            };
+            
+            input.onkeydown = function(e) {
+                if (e.key === 'Enter') {
+                    this.blur();
+                }
+            };
+            
+            element.textContent = '';
+            element.appendChild(input);
+            input.focus();
+            input.select();
+        }
+
+        function addRole() {
+            const container = document.getElementById('role-container');
+            const roleItem = document.createElement('div');
+            roleItem.className = 'role-item';
+            roleItem.innerHTML = `
+                <input type="text" placeholder="役の名前" class="role-name">
+                <span class="role-arrow">→</span>
+                <input type="text" placeholder="その役割は何をする？" class="role-action">
+            `;
+            container.appendChild(roleItem);
+            
+            // 新しく追加した入力欄にもイベントリスナーを追加
+            const inputs = roleItem.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('input', checkRoleInputs);
+            });
+        }
+        
+        function checkRoleInputs() {
+            const roleNames = document.querySelectorAll('.role-name');
+            const roleActions = document.querySelectorAll('.role-action');
+            
+            // 少なくとも1つの役割が入力されているかチェック
+            let hasRole = false;
+            roleNames.forEach((name, index) => {
+                if (name.value.trim() && roleActions[index].value.trim()) {
+                    hasRole = true;
+                }
+            });
+            
+            if (hasRole) {
+                showStep(3);
+            }
+        }
+
+        function spinRuleRoulette() {
+            const randomTemplate = getRandom(ruleTemplates);
+            addRuleFromTemplate(randomTemplate);
+            
+            // ボタンのテキストを変更
+            const button = document.querySelector('.spin-button[onclick="spinRuleRoulette()"]');
+            if (button) {
+                button.innerHTML = 'もう一度ルーレットを回す';
+            }
+        }
+
+        function addRuleFromTemplate(template) {
+            const ruleId = Date.now();
+            selectedRules.push({ id: ruleId, template: template, values: [] });
+            renderSelectedRules();
+            showStep(4);
+        }
+
+        function renderSelectedRules() {
+            const container = document.getElementById('selected-rules-container');
+            container.innerHTML = '';
+            
+            selectedRules.forEach(rule => {
+                const ruleDiv = document.createElement('div');
+                ruleDiv.className = 'rule-item';
+                
+                let html = '<button class="remove-rule" onclick="removeRule(' + rule.id + ')">×</button>';
+                let parts = rule.template.template.split('【blank】');
+                
+                parts.forEach((part, index) => {
+                    html += part;
+                    if (index < parts.length - 1) {
+                        const value = rule.values[index] || '';
+                        html += '<input type="text" value="' + value + '" onchange="updateRuleValue(' + rule.id + ', ' + index + ', this.value)" placeholder="...">';
+                    }
+                });
+                
+                ruleDiv.innerHTML = html;
+                container.appendChild(ruleDiv);
+            });
+        }
+
+        function updateRuleValue(ruleId, index, value) {
+            const rule = selectedRules.find(r => r.id === ruleId);
+            if (rule) {
+                rule.values[index] = value;
+            }
+        }
+
+        function removeRule(ruleId) {
+            selectedRules = selectedRules.filter(r => r.id !== ruleId);
+            renderSelectedRules();
+        }
+
+        function toggleTemplates() {
+            const grid = document.getElementById('template-grid');
+            grid.classList.toggle('hidden');
+            
+            if (!grid.classList.contains('hidden')) {
+                if (grid.children.length === 0) {
+                    renderTemplates();
+                }
+            }
+        }
+
+        function renderTemplates() {
+            const grid = document.getElementById('template-grid');
+            grid.innerHTML = '<h3 style="grid-column: 1/-1; color: #6fb1ec; margin: 0 0 15px 0;">テンプレートを選んでクリック！（全60種類）</h3>';
+            
+            ruleTemplates.forEach(template => {
+                const card = document.createElement('div');
+                card.className = 'template-card';
+                card.innerHTML = '<div class="template-text">' + template.template.replace(/【blank】/g, '<strong style="color: #e66056;">___</strong>') + '</div>';
+                card.onclick = () => {
+                    addRuleFromTemplate(template);
+                    card.classList.add('selected');
+                    setTimeout(() => card.classList.remove('selected'), 500);
+                    // スクロールして選択したルールを表示
+                    document.getElementById('selected-rules-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                };
+                grid.appendChild(card);
+            });
+        }
+
+        function showStep(stepNumber) {
+            for (let i = 1; i <= 5; i++) {
+                const step = document.getElementById(`step${i}`);
+                if (i <= stepNumber) {
+                    step.classList.remove('hidden');
+                }
+            }
+            
+            if (stepNumber === 5) {
+                // ルーレット参照を表示
+                const rouletteRef = `${currentGame.wordA}${currentGame.situation}${currentGame.wordB}${currentGame.action}`;
+                document.getElementById('roulette-reference').textContent = rouletteRef;
+                generateSummary();
+            }
+        }
+
+        function generateSummary() {
+            // 役割の収集
+            const roleNames = document.querySelectorAll('.role-name');
+            const roleActions = document.querySelectorAll('.role-action');
+            currentGame.roles = [];
+            
+            let rolesHTML = '';
+            roleNames.forEach((name, index) => {
+                if (name.value.trim() && roleActions[index].value.trim()) {
+                    currentGame.roles.push({
+                        name: name.value.trim(),
+                        action: roleActions[index].value.trim()
+                    });
+                    rolesHTML += `<div><strong>${name.value.trim()}</strong> → ${roleActions[index].value.trim()}</div>`;
+                }
+            });
+            
+            document.getElementById('summary-roles').innerHTML = rolesHTML || '役割が設定されていません';
+            
+            // ゲーム名の取得（カスタム名またはルーレット結果）
+            const customName = document.getElementById('game-name').value.trim();
+            const rouletteTitle = `${currentGame.wordA}${currentGame.situation}${currentGame.wordB}${currentGame.action}鬼ごっこ`;
+            const displayTitle = customName || rouletteTitle;
+            
+            document.getElementById('summary-title').textContent = displayTitle;
+            
+            // ルールの収集
+            currentGame.rules = selectedRules.map(rule => {
+                let text = rule.template.template;
+                rule.values.forEach(value => {
+                    text = text.replace('【blank】', value || '___');
+                });
+                return text;
+            });
+            
+            currentGame.customRules = document.getElementById('custom-rules').value;
+            
+            let rulesHTML = '';
+            currentGame.rules.forEach((rule, index) => {
+                rulesHTML += `<div style="margin-bottom: 10px;">• ${rule}</div>`;
+            });
+            if (currentGame.customRules) {
+                rulesHTML += `<div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #fef9f2;">${currentGame.customRules.replace(/\n/g, '<br>')}</div>`;
+            }
+            
+            document.getElementById('summary-rules').innerHTML = rulesHTML || 'ルールが設定されていません';
+            
+            // ストーリー
+            currentGame.story = document.getElementById('story').value;
+            document.getElementById('summary-story').textContent = currentGame.story || 'ストーリーが設定されていません';
+        }
+
+        // 入力時に自動的に次のステップを表示
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初期の役割入力欄にイベントリスナーを追加
+            const initialInputs = document.querySelectorAll('.role-name, .role-action');
+            initialInputs.forEach(input => {
+                input.addEventListener('input', checkRoleInputs);
+            });
+            
+            // カスタムルール入力でステップ4を表示
+            const customRulesTextarea = document.getElementById('custom-rules');
+            if (customRulesTextarea) {
+                customRulesTextarea.addEventListener('input', () => showStep(4));
+            }
+            
+            // ゲーム名入力で概要を更新
+            const gameNameInput = document.getElementById('game-name');
+            if (gameNameInput) {
+                gameNameInput.addEventListener('input', generateSummary);
+            }
+        });
+        
+        document.getElementById('story').addEventListener('input', () => showStep(5));
+
+        function saveGame() {
+            generateSummary();
+            
+            // ゲーム名を保存
+            currentGame.gameName = document.getElementById('game-name').value.trim();
+            
+            const savedGames = JSON.parse(localStorage.getItem('tagGames') || '[]');
+            const gameData = {
+                ...currentGame,
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleString('ja-JP')
+            };
+            
+            savedGames.push(gameData);
+            localStorage.setItem('tagGames', JSON.stringify(savedGames));
+            
+            alert('鬼ごっこを保存しました！\n「過去の鬼ごっこを見る」から確認できます。');
+        }
+
+        function toggleHistory() {
+            const historyList = document.getElementById('history-list');
+            historyList.classList.toggle('hidden');
+            
+            if (!historyList.classList.contains('hidden')) {
+                loadHistory();
+            }
+        }
+
+        function loadHistory() {
+            const savedGames = JSON.parse(localStorage.getItem('tagGames') || '[]');
+            const historyList = document.getElementById('history-list');
+            
+            if (savedGames.length === 0) {
+                historyList.innerHTML = '<p style="text-align: center; color: #999;">まだ保存された鬼ごっこはありません</p>';
+                return;
+            }
+            
+            let html = '<h3 style="margin-bottom: 20px; color: #e66056;">保存された鬼ごっこ</h3>';
+            savedGames.reverse().forEach((game, index) => {
+                const rouletteTitle = `${game.wordA}${game.situation}${game.wordB}${game.action}鬼ごっこ`;
+                const displayTitle = game.gameName || rouletteTitle;
+                const actualIndex = savedGames.length - 1 - index;
+                html += `
+                    <div class="history-item" style="position: relative;">
+                        <div onclick="loadGame(${actualIndex})" style="cursor: pointer;">
+                            <div class="history-title">${displayTitle}</div>
+                            ${game.gameName ? `<div style="color: #999; font-size: 0.9em; margin-top: 5px;">（${rouletteTitle}）</div>` : ''}
+                            <div class="history-date">${game.date}</div>
+                        </div>
+                        <button class="remove-rule" onclick="event.stopPropagation(); deleteGame(${actualIndex})" style="position: absolute; top: 15px; right: 15px;">×</button>
+                    </div>
+                `;
+            });
+            
+            historyList.innerHTML = html;
+        }
+
+        let currentViewingGameIndex = null;
+
+        function loadGame(index) {
+            const savedGames = JSON.parse(localStorage.getItem('tagGames') || '[]');
+            const game = savedGames[index];
+            
+            currentViewingGameIndex = index;
+            
+            // 詳細表示を更新
+            const rouletteTitle = `${game.wordA}${game.situation}${game.wordB}${game.action}鬼ごっこ`;
+            const displayTitle = game.gameName || rouletteTitle;
+            
+            let titleHTML = displayTitle;
+            if (game.gameName) {
+                titleHTML += `<div style="color: #999; font-size: 0.8em; margin-top: 10px;">ルーレット: ${rouletteTitle}</div>`;
+            }
+            
+            document.getElementById('saved-summary-title').innerHTML = titleHTML;
+            
+            // 役割の表示
+            let rolesHTML = '';
+            if (game.roles && game.roles.length > 0) {
+                game.roles.forEach(role => {
+                    rolesHTML += `<div><strong>${role.name}</strong> → ${role.action}</div>`;
+                });
+            } else {
+                rolesHTML = '役割が設定されていません';
+            }
+            document.getElementById('saved-summary-roles').innerHTML = rolesHTML;
+            
+            // ルールの表示
+            let rulesHTML = '';
+            if (game.rules && Array.isArray(game.rules) && game.rules.length > 0) {
+                game.rules.forEach(rule => {
+                    rulesHTML += `<div style="margin-bottom: 10px;">• ${rule}</div>`;
+                });
+            }
+            if (game.customRules) {
+                rulesHTML += `<div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #fef9f2;">${game.customRules.replace(/\n/g, '<br>')}</div>`;
+            }
+            if (!rulesHTML) {
+                rulesHTML = 'ルールが設定されていません';
+            }
+            document.getElementById('saved-summary-rules').innerHTML = rulesHTML;
+            
+            // ストーリーの表示
+            document.getElementById('saved-summary-story').textContent = game.story || 'ストーリーが設定されていません';
+            
+            // ステップ6を表示、他を非表示
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`step${i}`).classList.add('hidden');
+            }
+            document.getElementById('step6').classList.remove('hidden');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function editSavedGame() {
+            if (currentViewingGameIndex === null) return;
+            
+            const savedGames = JSON.parse(localStorage.getItem('tagGames') || '[]');
+            const game = savedGames[currentViewingGameIndex];
+            
+            currentGame = { ...game };
+            
+            // ルーレット結果を復元
+            document.getElementById('word-a').textContent = game.wordA;
+            document.getElementById('situation').textContent = game.situation;
+            document.getElementById('word-b').textContent = game.wordB;
+            document.getElementById('action').textContent = game.action;
+            
+            updateGameTitle();
+            
+            // ゲーム名を復元
+            document.getElementById('game-name').value = game.gameName || '';
+            
+            // ルーレット参照を表示
+            const rouletteRef = `${game.wordA}${game.situation}${game.wordB}${game.action}`;
+            document.getElementById('roulette-reference').textContent = rouletteRef;
+            
+            // 役割の復元
+            const container = document.getElementById('role-container');
+            container.innerHTML = '';
+            if (game.roles && game.roles.length > 0) {
+                game.roles.forEach(role => {
+                    const roleItem = document.createElement('div');
+                    roleItem.className = 'role-item';
+                    roleItem.innerHTML = `
+                        <input type="text" placeholder="役の名前" class="role-name" value="${role.name}">
+                        <span class="role-arrow">→</span>
+                        <input type="text" placeholder="その役割は何をする？" class="role-action" value="${role.action}">
+                    `;
+                    container.appendChild(roleItem);
+                    
+                    // イベントリスナーを追加
+                    const inputs = roleItem.querySelectorAll('input');
+                    inputs.forEach(input => {
+                        input.addEventListener('input', checkRoleInputs);
+                    });
+                });
+            } else {
+                // デフォルトの2つを表示
+                container.innerHTML = `
+                    <div class="role-item">
+                        <input type="text" placeholder="役の名前" class="role-name">
+                        <span class="role-arrow">→</span>
+                        <input type="text" placeholder="その役割は何をする？" class="role-action">
+                    </div>
+                    <div class="role-item">
+                        <input type="text" placeholder="役の名前" class="role-name">
+                        <span class="role-arrow">→</span>
+                        <input type="text" placeholder="その役割は何をする？" class="role-action">
+                    </div>
+                `;
+                const newInputs = container.querySelectorAll('.role-name, .role-action');
+                newInputs.forEach(input => {
+                    input.addEventListener('input', checkRoleInputs);
+                });
+            }
+            
+            // ルールの復元
+            selectedRules = game.rules ? (Array.isArray(game.rules) ? game.rules.map((ruleText, idx) => ({
+                id: Date.now() + idx,
+                template: { template: ruleText, blanks: 0 },
+                values: []
+            })) : []) : [];
+            renderSelectedRules();
+            
+            document.getElementById('custom-rules').value = game.customRules || '';
+            document.getElementById('story').value = game.story || '';
+            
+            // ステップ6を非表示、1-5を表示
+            document.getElementById('step6').classList.add('hidden');
+            showStep(5);
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function backToHistory() {
+            document.getElementById('step6').classList.add('hidden');
+            document.getElementById('step5').classList.remove('hidden');
+            document.getElementById('history-list').classList.remove('hidden');
+            loadHistory();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function createNewGame() {
+            if (confirm('新しい遊びを作りますか？\n現在の内容はリセットされます。')) {
+                // すべてをリセット
+                currentGame = {
+                    wordA: '',
+                    situation: '',
+                    wordB: '',
+                    action: '',
+                    gameName: '',
+                    roles: [],
+                    rules: [],
+                    customRules: '',
+                    story: ''
+                };
+                
+                selectedRules = [];
+                
+                // ルーレット結果をリセット
+                document.getElementById('word-a').textContent = '???';
+                document.getElementById('situation').textContent = '???';
+                document.getElementById('word-b').textContent = '???';
+                document.getElementById('action').textContent = '???';
+                document.getElementById('game-title').textContent = '';
+                
+                // ゲーム名をリセット
+                document.getElementById('game-name').value = '';
+                document.getElementById('roulette-reference').textContent = '';
+                
+                // 役割をリセット（初期の2つに戻す）
+                const container = document.getElementById('role-container');
+                container.innerHTML = `
+                    <div class="role-item">
+                        <input type="text" placeholder="役の名前" class="role-name">
+                        <span class="role-arrow">→</span>
+                        <input type="text" placeholder="その役割は何をする？" class="role-action">
+                    </div>
+                    <div class="role-item">
+                        <input type="text" placeholder="役の名前" class="role-name">
+                        <span class="role-arrow">→</span>
+                        <input type="text" placeholder="その役割は何をする？" class="role-action">
+                    </div>
+                `;
+                
+                // イベントリスナーを再設定
+                const newInputs = container.querySelectorAll('.role-name, .role-action');
+                newInputs.forEach(input => {
+                    input.addEventListener('input', checkRoleInputs);
+                });
+                
+                // ルールをリセット
+                document.getElementById('selected-rules-container').innerHTML = '';
+                document.getElementById('custom-rules').value = '';
+                
+                // ルールルーレットボタンのテキストをリセット
+                const ruleButton = document.querySelector('.spin-button[onclick="spinRuleRoulette()"]');
+                if (ruleButton) {
+                    ruleButton.innerHTML = 'ルールルーレットを回す';
+                }
+                
+                // テンプレートグリッドを非表示
+                document.getElementById('template-grid').classList.add('hidden');
+                
+                // ストーリーをリセット
+                document.getElementById('story').value = '';
+                
+                // 履歴リストを非表示
+                document.getElementById('history-list').classList.add('hidden');
+                
+                // ステップ2以降を非表示
+                for (let i = 2; i <= 5; i++) {
+                    document.getElementById(`step${i}`).classList.add('hidden');
+                }
+                
+                // ページトップへスクロール
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function deleteGame(index) {
+            if (confirm('この鬼ごっこを削除しますか？')) {
+                let savedGames = JSON.parse(localStorage.getItem('tagGames') || '[]');
+                savedGames.splice(index, 1);
+                localStorage.setItem('tagGames', JSON.stringify(savedGames));
+                loadHistory();
+                
+                // ヘッダーから開いた履歴も更新
+                const headerHistoryModal = document.getElementById('header-history-modal');
+                if (headerHistoryModal && !headerHistoryModal.classList.contains('hidden')) {
+                    loadHeaderHistory();
+                }
+            }
+        }
+        
+        function showHistoryFromHeader() {
+            let modal = document.getElementById('header-history-modal');
+            
+            // モーダルが存在しない場合は作成
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'header-history-modal';
+                modal.className = 'history-modal';
+                modal.innerHTML = `
+                    <div class="history-modal-content">
+                        <div class="history-modal-header">
+                            <h2 style="color: #e66056; margin: 0;">保存された鬼ごっこ</h2>
+                            <button class="modal-close-button" onclick="closeHeaderHistory()">×</button>
+                        </div>
+                        <div id="header-history-list" class="history-list" style="display: block;"></div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+            
+            modal.classList.remove('hidden');
+            loadHeaderHistory();
+            document.body.style.overflow = 'hidden'; // 背景スクロールを防止
+        }
+        
+        function loadHeaderHistory() {
+            const savedGames = JSON.parse(localStorage.getItem('tagGames') || '[]');
+            const historyList = document.getElementById('header-history-list');
+            
+            if (savedGames.length === 0) {
+                historyList.innerHTML = '<p style="text-align: center; color: #999; padding: 40px 20px;">まだ保存された鬼ごっこはありません</p>';
+                return;
+            }
+            
+            let html = '';
+            savedGames.reverse().forEach((game, index) => {
+                const rouletteTitle = `${game.wordA}${game.situation}${game.wordB}${game.action}鬼ごっこ`;
+                const displayTitle = game.gameName || rouletteTitle;
+                const actualIndex = savedGames.length - 1 - index;
+                html += `
+                    <div class="history-item" style="position: relative;">
+                        <div onclick="loadGameFromHeader(${actualIndex})" style="cursor: pointer;">
+                            <div class="history-title">${displayTitle}</div>
+                            ${game.gameName ? `<div style="color: #999; font-size: 0.9em; margin-top: 5px;">（${rouletteTitle}）</div>` : ''}
+                            <div class="history-date">${game.date}</div>
+                        </div>
+                        <button class="remove-rule" onclick="event.stopPropagation(); deleteGame(${actualIndex})" style="position: absolute; top: 15px; right: 15px;">×</button>
+                    </div>
+                `;
+            });
+            
+            historyList.innerHTML = html;
+        }
+        
+        function loadGameFromHeader(index) {
+            closeHeaderHistory();
+            loadGame(index);
+        }
+        
+        function closeHeaderHistory() {
+            const modal = document.getElementById('header-history-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = ''; // 背景スクロールを復元
+            }
+        }
+    </script>
+
+</body>
+</html>
